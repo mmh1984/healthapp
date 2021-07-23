@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Register - Brand</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+    <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="assets/fonts/ionicons.min.css">
+    <link rel="stylesheet" href="assets/css/Footer-Clean.css">
+    <link rel="stylesheet" href="assets/css/gradient-navbar-1.css">
+    <link rel="stylesheet" href="assets/css/gradient-navbar.css">
+    <link rel="stylesheet" href="assets/css/Navigation-Menu.css">
+    <link rel="stylesheet" href="assets/css/Navigation-with-Button.css">
+    <link rel="stylesheet" href="assets/css/Navigation-with-Search.css">
+    <link rel="stylesheet" href="assets/css/Testimonials.css">
+    <link rel="shortcut icon" href="../assets/favicon/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../assets/favicon/favicon.ico" type="image/x-icon">
+</head>
+
+<body class="bg-gradient-primary">
+    <div class="container">
+        <div class="card shadow-lg o-hidden border-0 my-5">
+            <div class="card-body p-0">
+                <div class="row">
+                    <div class="col-lg-5 d-none d-lg-flex">
+                        <div class="flex-grow-1 bg-register-image" style="background-image: url(assets/img/mar-ko-pQ5hSOrkYgE-unsplash.jpg);"></div>
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="p-5">
+                            <div class="text-center">
+                                <h4 class="text-dark mb-4">Register</h4>
+                            </div>
+                            <div id="message"></div>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control form-control-user" type="text" id="regno" placeholder="0-00-0000" name="first_name"></div>
+                                <div class="col-sm-6"><input class="form-control form-control-user" type="text" id="name" placeholder="Clinic Name" name="last_name"></div>
+                            </div>
+                            <div class="form-group"><input class="form-control form-control-user" id="phone" aria-describedby="emailHelp" placeholder="Phone" name="email"></div>
+                            <div class="form-group"><input class="form-control form-control-user" type="email" id="email" aria-describedby="emailHelp" placeholder="Email Address" name="email"></div>
+                            <div class="form-group"><textarea class="form-control form-control-user" placeholder="Address" id="address"></textarea></div>
+                            <div class="form-group"><input class="form-control form-control-user" type="password" id="password" aria-describedby="emailHelp" placeholder="password" name="password"></div>
+                            <button class="btn btn-primary btn-block text-white btn-user" type="submit" id="btnregister">Register Account</button>
+
+                            <hr>
+                            <hr>
+
+                            <div class="text-center"><a class="small" href="forgotpassword.html">Forgot Password?</a></div>
+                            <div class="text-center"><a class="small" href="login.html">Already have an account? Login!</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/chart.min.js"></script>
+    <script src="assets/js/bs-init.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
+    <script src="assets/js/theme.js"></script>
+</body>
+
+</html>
+<script>
+    $("#btnregister").click(function() {
+
+        var no = $("#regno").val();
+        var name = $("#name").val();
+        var email = $("#email").val();
+        var phone = $("#phone").val();
+        var address = $("#address").val();
+        var pass = $("#password").val();
+        if (no.length == 0) {
+
+            $("#message").html("<p class='alert alert-danger'>Registration number cannot be empty</p>");
+        } else if (name.length == 0) {
+            $("#message").html("<p class='alert alert-danger'>Clinic name cannot be empty</p>");
+        } else if (phone.length == 0) {
+            $("#message").html("<p class='alert alert-danger'>Phone cannot be empty</p>");
+        } else if (email.length == 0) {
+            $("#message").html("<p class='alert alert-danger'>Email cannot be empty</p>");
+        } else if (address.length == 0) {
+            $("#message").html("<p class='alert alert-danger'>Address cannot be empty</p>");
+        } else if (pass.length < 8) {
+            $("#message").html("<p class='alert alert-danger'>Password must be at least 8 characters long</p>");
+        } else {
+            $.ajax({
+                url: "controls/clinic.php",
+                type: "POST",
+                data: {
+                    op: "register",
+                    no: no,
+                    name: name,
+                    email: email,
+                    phone: phone,
+                    address: address,
+                    password: pass
+                },
+                success: function(res) {
+
+                    if (res == "OK") {
+                        $("#message").html("<p class='alert alert-success'>Registration complete. We will verify your registration number and send you a text if it's verified</p>");
+                        setTimeout(function() {
+                            window.location.href = "login.html";
+                        }, 3000)
+                    } else {
+                        $("#message").html("<p class='alert alert-success'>" + res + "</p>");
+                    }
+                }
+            })
+        }
+    })
+</script>
